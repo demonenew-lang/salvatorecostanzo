@@ -1,0 +1,89 @@
+# AI Instructions & System Memory for Salvatore Costanzo Unified Web Ecosystem
+# Valid for Antigravity, Cursor, and any other AI coding assistant accessing this folder.
+
+# IMPORTANT: This file is parsed automatically by AIs to understand the workspace structure, rules, modifications, and rules of engagement.
+
+---
+
+## 1. Architettura del Workspace (Workspace Architecture)
+Il progetto è un portale web unificato offline-first situato in `C:\I_Miei_ProgettiAntigravityinBaracca\salvatorecostanzo`.
+La struttura delle directory e dei file principali è la seguente:
+- `index.html` : La dashboard/portale principale che unisce le 4 sezioni.
+- `shared-theme.css` : Foglio di stile condiviso contenente le variabili CSS per i 10 temi di accessibilità e le regole globali di uniformità estetica (`!important`).
+- `shared-theme.js` : Script condiviso che inizializza il tema memorizzato, inietta automaticamente il pulsante per lo switch in alto a sinistra (con touch target accessibile di min 48px) e sincronizza la scelta tramite `localStorage`.
+- `salvatore/` : Sezione curriculum e profilo personale di Salvatore Costanzo (migrato da "il mio sito web").
+- `pensierocritico/` : Sezione che ospita la copia speculare offline del sito `https://www.pensierocritico.eu/`. Contiene 718 pagine HTML e 3.892 asset scaricati (immagini, reset, fogli di stile locale).
+- `g9/` : Sezione contenente la guida di calibrazione cinema per la Panasonic G9 e il manuale d'uso ufficiale in italiano (`DC-G9_DVQP1409ZE_full_ita.pdf`).
+- `zoom/` : Sezione contenente la guida di calibrazione studio per lo Zoom H5 e i manuali/quick tour in italiano.
+
+---
+
+## 2. Riepilogo Storico delle Modifiche Apportate (Changelog & History)
+1. **Unificazione e Consolidamento**: Consolidati i siti sparsi presenti in `I_Miei_ProgettiAntigravityinBaracca` all'interno della cartella unica `salvatorecostanzo`.
+2. **Creazione Portal Hub (`index.html`)**: Sviluppata la pagina iniziale con layout cinematic slate responsive e link diretti sia alle guide web che al download immediato dei manuali.
+3. **Download Manualistica in Italiano**: Posizionati ed integrati i PDF locali in italiano:
+   - Lumix G9: `g9/DC-G9_DVQP1409ZE_full_ita.pdf`
+   - Zoom H5: `zoom/Manuale_Ufficiale_Zoom_H5.pdf`
+   - Zoom Quick Tour: `zoom/I_H5studio_QuickTour.pdf`
+4. **Mirroring Completo Offline**: Scaricate tutte le pagine ed asset di `pensierocritico.eu` (718 pagine, 3892 asset) riscrivendo i link da assoluti a relativi per garantire il funzionamento 100% offline.
+5. **Iniezione di Massa (Mass Integration)**: Eseguito uno script PowerShell che ha inserito automaticamente in **tutti i 1.112 file HTML** della cartella `pensierocritico` (incluso `/progettoB/`):
+   - I collegamenti relativi dinamici a `shared-theme.css` e `shared-theme.js`.
+   - La barra di navigazione globale superiore (`global-nav`) con i link relativi corretti all'Hub, a Salvatore, alla G9 e allo Zoom H5.
+6. **Integrazione Guide G9 e Zoom**: Modificate le pagine `g9/index.html` e `zoom/index.html` per supportare il caricamento del file CSS e JS del tema condiviso e abilitare il menu superiore fisse per un rientro rapido.
+
+---
+
+## 3. Principi UI/UX, Reattività & Usabilità Applicati
+Qualsiasi intervento futuro deve rispettare i seguenti standard di usabilità e performance:
+- **Gerarchia Piatta (Flat Hierarchy)**: L'architettura informativa garantisce l'accesso a qualunque contenuto e manuale in massimo 1 o 2 clic a partire da `index.html`.
+- **Zero Dead-Ends**: La barra `global-nav` deve essere sempre presente in cima ad ogni pagina per non fare sentire l'utente "intrappolato".
+- **Chiamate all'Azione (CTA) Contrastate**:
+  - Pulsante Primario (`btn-primary`): Colore d'accento del tema per la navigazione nelle guide.
+  - Pulsanti Secondari (`btn-secondary`): Stile Outline per i download immediati dei PDF.
+- **Reattività Istantanea (FID / INP < 10ms)**: Il tema cambia colore istantaneamente agendo sulle variabili CSS nel tag `<html>` / `<body>`, senza ricaricare le pagine.
+- **Offline-First**: Nessuno script o foglio di stile locale deve fare riferimento a domini esterni o percorsi assoluti (es. `/css/`), altrimenti il sito si romperà quando aperto localmente senza internet.
+
+---
+
+## 4. Linee Guida di Accessibilità e Gestione dei 10 Temi (WCAG AA/AAA Compliant)
+Il sistema di colorazione del sito è centralizzato ed è gestito tramite `shared-theme.css` e `shared-theme.js`.
+Ci sono 10 temi predefiniti tra cui l'utente può scorrere tramite il pulsante in alto a sinistra:
+1. **Scuro (Default)**: Cinematic Slate (`#020617` con gradienti ardesia/viola profondi).
+2. **Giorno (Chiaro)**: Sfondo chiaro ad alto contrasto (`#f8fafc`).
+3. **Contrasto Giallo**: Sfondo nero (`#000000`) e testo giallo (`#ffff00`) (Conforme WCAG AAA).
+4. **Contrasto Blu**: Sfondo blu scuro (`#001a4d`) e testo/accenti oro/giallo (Conforme WCAG AAA).
+5. **Sepia**: Toni caldi beige e marrone scuro (`#f4ecd8`).
+6. **Verde Foresta**: Sfondo foresta scuro (`#05140e`) e testo verde smeraldo.
+7. **Notte Viola**: Toni violacei scuri (`#0f0b1a`) e accenti lilla.
+8. **Contrasto Verde**: Sfondo nero (`#000000`) e testo verde neon (`#00ff00`) (Conforme WCAG AAA).
+9. **Grigio Carbone**: Sfondo carbone (`#18181b`) e testo bianco/ambra.
+10. **Carta Lavagna**: Sfondo ardesia chiaro (`#cbd5e1`) con testo ardesia scuro.
+
+**Regole per i Temi:**
+- **Iniezione Automatica**: `shared-theme.js` deve essere incluso in TUTTE le pagine HTML. Genera dinamicamente il tag `<button id="themeSwitcher" class="theme-btn">` all'inizio del `<body>` per garantire l'accessibilità da tastiera.
+- **Evitare override locali rigidi**: Non definire colori hardcoded (`color`, `background-color`, `border-color`) nei CSS specifici delle sezioni se questi ostacolano i temi di accessibilità. Usa invece le variabili CSS definite in `shared-theme.css`:
+  - `--bg-base`: Colore di sfondo primario del corpo.
+  - `--bg-gradient`: Gradiente di sfondo per il corpo (disattivato nei temi High Contrast).
+  - `--card-bg`: Colore di sfondo dei pannelli e delle card.
+  - `--card-border`: Bordo per card e contenitori.
+  - `--text-primary`: Colore del testo principale.
+  - `--text-muted`: Colore del testo secondario/dettagli.
+  - `--accent-color`: Colore per i link attivi e accenti grafici.
+  - `--accent-color-hover`: Colore hover per accenti e pulsanti.
+  - `--btn-text-color`: Colore del testo all'interno dei pulsanti principali.
+- Nelle modalità ad alto contrasto (`contrast-yellow`, `contrast-blue`, `contrast-green`), tutti gli effetti di sfocatura (`backdrop-filter`), ombreggiature (`box-shadow`, `text-shadow`) e blob luminosi decorativi (`.glow-blob`) devono essere nascosti (`display: none !important` o disattivati).
+
+---
+
+## 5. Workflow per le Modifiche (AI Guidelines)
+Quando modifichi il codice di questo ecosistema:
+1. **Integrazione del Tema**: Quando crei una nuova pagina, inserisci sempre:
+   ```html
+   <link rel="stylesheet" href="../shared-theme.css">
+   <script src="../shared-theme.js"></script>
+   ```
+   (adeguando il numero di `../` in base alla profondità della cartella).
+2. **Navigazione Uniforme**: Ogni pagina di livello inferiore (es. in `salvatore/`, `g9/`, `zoom/`, `pensierocritico/`) deve possedere in cima una barra di navigazione globale per consentire il ritorno al Portale Hub (`../index.html`) e il passaggio rapido tra le guide, mantenendo l'esperienza fluida.
+3. **Mantenimento di `shared-theme.css`**: Se devi aggiungere regole di uniformità per adattare graficamente una nuova sezione, modifichi il blocco `GLOBAL STYLE OVERRIDES` in `shared-theme.css` per mappare i selettori CSS di quella sezione alle variabili CSS del tema. Non aggiungere fogli di stile locali che sovrascrivono in modo distruttivo le regole di accessibilità.
+4. **Validazione**: Dopo ogni modifica, assicurati che i selettori CSS e gli ID degli elementi interattivi siano coerenti per preservare l'accessibilità da tastiera e lettori dello schermo.
+5. **Manuali**: Non inserire o linkare manuali in lingue diverse dall'italiano. Qualsiasi PDF tecnico deve essere posizionato nelle rispettive cartelle (`g9/` o `zoom/`) e linkato localmente.

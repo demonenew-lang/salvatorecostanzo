@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salvatore Costanzo - Portale Unificato</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Link to Shared Theme Stylesheet -->
+    <link rel="stylesheet" href="shared-theme.css">
+    <!-- Link to Shared Theme Script (will automatically inject accessibility button) -->
+    <script src="shared-theme.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glow Blobs */
+        .glow-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(130px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.45;
+        }
+        .glow-1 {
+            top: -10%;
+            left: 15%;
+            width: 450px;
+            height: 450px;
+            background: rgba(6, 182, 212, 0.15); /* cyan */
+        }
+        .glow-2 {
+            bottom: 15%;
+            right: 15%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 178, 46, 0.12); /* amber */
+        }
+
+        header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 5rem 2rem 2.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header .rec-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            padding: 6px 14px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 400;
+            letter-spacing: 2px;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        header p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+
+        main {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem 5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 2rem;
+            flex: 1;
+            align-items: stretch;
+        }
+
+        @media (min-width: 900px) {
+            main {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .hub-card {
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            backdrop-filter: blur(16px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hub-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--text-muted));
+            opacity: 0.7;
+        }
+
+        .hub-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-color);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-top {
+            margin-bottom: 2rem;
+        }
+
+        .icon-container {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            transition: transform 0.3s;
+        }
+
+        .hub-card:hover .icon-container {
+            transform: scale(1.08) rotate(-3deg);
+        }
+
+        .card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .card-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features-list li {
+            font-size: 0.9rem;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .features-list li::before {
+            content: 'âœ“';
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .btn-hub {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            border-top: 1px solid var(--card-border);
+            font-size: 0.85rem;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-blob glow-1"></div>
+    <div class="glow-blob glow-2"></div>
+
+    <header>
+        <div class="rec-indicator">
+            <i class="fa-solid fa-cube animate-spin" style="animation-duration: 4s;"></i>
+            Portale Integrato Attivo
+        </div>
+        <h1>Salvatore Costanzo</h1>
+        <p>Ecosistema digitale unificato. Gestione IT, analisi statistica amministrativa, produzione video professionale e manualistica tecnica.</p>
+    </header>
+
+    <main>
+        <!-- SEZIONE SALVATORE -->
+        <section class="hub-card">
+            <div class="card-top">
+                <div class="icon-container">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <h2 class="card-title">Profilo Professionale</h2>
+                <p class="card-description">
+                    Curriculum, inquadramento professionale nella Pubblica Amministrazione, percorsi formativi ed ecosystem setup hardware/AI.
+                </p>
+                <ul class="features-list">
+                    <li>Dettagli di carriera IT e PA</li>
+                    <li>Socio fondatore Cerchio Blu APS</li>
+                    <li>Configurazione hardware e stazioni di lavoro</li>
+                    <li>Timeline e storia formativa</li>
+                </ul>
+            </div>
+            <a href="salvatore/index.html" class="btn-hub btn-primary">
+                Apri Profilo Personale <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </section>
+
+        <!-- SEZIONE PENSIERO CRITICO -->
+        <section class="hub-card">
+            <div class="card-top">
+                <div class="icon-container">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <h2 class="card-title">Pensiero Critico</h2>
+                <p class="card-description">
+                    Archivio concettuale, metodi e strumenti di agnotologia e analisi scientifica per difendersi dalla manipolazione informativa.
+                </p>
+                <ul class="features-list">
+                    <li>Euristiche, Bias e distorsioni cognitive</li>
+                    <li>Ecosistema mediatico e manipolazione</li>
+                    <li>La piramide della conoscenza (DIKW)</li>
+                    <li>CredibilitÃ  delle fonti e fact-checking</li>
+                </ul>
+            </div>
+            <a href="pensierocritico/index.html" class="btn-hub btn-primary">
+                Esplora Pensiero Critico <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </section>
+
+        <!-- SEZIONE G9 -->
+        <section class="hub-card">
+            <div class="card-top">
+                <div class="icon-container">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
+                <h2 class="card-title">Panasonic G9 Cinema</h2>
+                <p class="card-description">
+                    Guida per impostare il firmware e calibrare la fotocamera per riprese cinematografiche e V-Log L a 10-bit.
+                </p>
+                <ul class="features-list">
+                    <li>Calibrazione dell'esposizione e dei profili</li>
+                    <li>Ottimizzazione del Venus Engine e AI</li>
+                    <li>Setup attrezzatura e formati di registrazione</li>
+                    <li>Manuale PDF ufficiale in italiano integrato</li>
+                </ul>
+            </div>
+            <div class="actions-group" style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: auto; width: 100%;">
+                <a href="g9/index.html" class="btn-hub btn-primary" style="margin-top: 0;">
+                    Leggi Guida G9 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="g9/DC-G9_DVQP1409ZE_full_ita.pdf" target="_blank" class="btn-hub btn-secondary">
+                    <i class="fa-solid fa-file-pdf"></i> Scarica Manuale Ufficiale (ITA)
+                </a>
+            </div>
+        </section>
+
+        <!-- SEZIONE ZOOM -->
+        <section class="hub-card">
+            <div class="card-top">
+                <div class="icon-container">
+                    <i class="fa-solid fa-microphone-lines"></i>
+                </div>
+                <h2 class="card-title">Zoom H5 Studio</h2>
+                <p class="card-description">
+                    Manuale chirurgico di calibrazione dei livelli audio in dB, cablaggio Line Out e accoppiamento app remota Bluetooth BTA-1.
+                </p>
+                <ul class="features-list">
+                    <li>Collegamento fisico alla Panasonic G9</li>
+                    <li>Prevenzione del fruscio e del limiter</li>
+                    <li>Controllo remoto da smartphone</li>
+                    <li>Documenti tecnici e Quick Tour in italiano</li>
+                </ul>
+            </div>
+            <div class="actions-group" style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: auto; width: 100%;">
+                <a href="zoom/index.html" class="btn-hub btn-primary" style="margin-top: 0;">
+                    Leggi Guida Zoom H5 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; width: 100%;">
+                    <a href="zoom/Manuale_Ufficiale_Zoom_H5.pdf" target="_blank" class="btn-hub btn-secondary" style="font-size: 0.85rem; padding: 0.8rem 0.5rem; justify-content: center; align-items: center; display: inline-flex;">
+                        <i class="fa-solid fa-file-pdf" style="margin-right: 4px;"></i> Manuale (ITA)
+                    </a>
+                    <a href="zoom/I_H5studio_QuickTour.pdf" target="_blank" class="btn-hub btn-secondary" style="font-size: 0.85rem; padding: 0.8rem 0.5rem; justify-content: center; align-items: center; display: inline-flex;">
+                        <i class="fa-solid fa-file-pdf" style="margin-right: 4px;"></i> Quick Tour (ITA)
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Â© 2026 Salvatore Costanzo Portale. Sviluppato in ambiente locale e ottimizzato per l'accessibilitÃ .</p>
+    </footer>
+
+</body>
+</html>
